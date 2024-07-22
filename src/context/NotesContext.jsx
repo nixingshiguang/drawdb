@@ -1,8 +1,6 @@
 import { createContext, useState } from "react";
-import useTransform from "../hooks/useTransform";
 import { Action, ObjectType, defaultNoteTheme } from "../data/constants";
-import useUndoRedo from "../hooks/useUndoRedo";
-import useSelect from "../hooks/useSelect";
+import { useUndoRedo, useTransform, useSelect } from "../hooks";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 
@@ -23,16 +21,17 @@ export default function NotesContextProvider({ children }) {
         return temp.map((t, i) => ({ ...t, id: i }));
       });
     } else {
+      const height = 88;
       setNotes((prev) => [
         ...prev,
         {
           id: prev.length,
-          x: -transform.pan.x,
-          y: -transform.pan.y,
+          x: transform.pan.x,
+          y: transform.pan.y - height / 2,
           title: `note_${prev.length}`,
           content: "",
           color: defaultNoteTheme,
-          height: 88,
+          height,
         },
       ]);
     }

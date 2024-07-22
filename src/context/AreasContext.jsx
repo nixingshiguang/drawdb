@@ -1,8 +1,6 @@
 import { createContext, useState } from "react";
 import { Action, ObjectType, defaultBlue } from "../data/constants";
-import useUndoRedo from "../hooks/useUndoRedo";
-import useTransform from "../hooks/useTransform";
-import useSelect from "../hooks/useSelect";
+import { useUndoRedo, useTransform, useSelect } from "../hooks";
 import { Toast } from "@douyinfe/semi-ui";
 import { useTranslation } from "react-i18next";
 
@@ -23,15 +21,17 @@ export default function AreasContextProvider({ children }) {
         return temp.map((t, i) => ({ ...t, id: i }));
       });
     } else {
+      const width = 200;
+      const height = 200;
       setAreas((prev) => [
         ...prev,
         {
           id: prev.length,
           name: `area_${prev.length}`,
-          x: -transform.pan.x,
-          y: -transform.pan.y,
-          width: 200,
-          height: 200,
+          x: transform.pan.x - width / 2,
+          y: transform.pan.y - height / 2,
+          width,
+          height,
           color: defaultBlue,
         },
       ]);
